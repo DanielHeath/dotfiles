@@ -1,5 +1,9 @@
 [user]
 	name = Daniel Heath
-	email = daniel.r.heath@gmail.com
+	email = daniel@heath.cc
 [push]
-	default = matching
+	default = simple
+[core]
+	editor = subl -n -w
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit

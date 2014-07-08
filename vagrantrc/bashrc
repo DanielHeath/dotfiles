@@ -58,7 +58,7 @@ ${prompt} ${reset_color}"
 fi
 
 test -e $HOME/projects && export CDPATH=$CDPATH:.:$HOME/Projects/99designs:$HOME/Projects
-test -e $HOME/projects && export PATH=$PATH:$HOME/.bin:$HOME/bin:/usr/local/bin
+test -e $HOME/.bin && export PATH=$PATH:$HOME/.bin
 
 export RUBYOPT=rubygems
 export RUBYLIB=.

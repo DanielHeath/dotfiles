@@ -8,4 +8,5 @@ export CDPATH=".:/Users/daniel.heath/Projects/rea::/Users/daniel.heath/Projects"
 export EDITOR="subl -w -n"
 
 PATH=/usr/local/bin:$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+. `brew --prefix`/etc/profile.d/z.sh
 

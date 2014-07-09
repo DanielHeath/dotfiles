@@ -1,0 +1,28 @@
+#!/bin/bash
+
+git stash -u --keep-index
+
+function check {
+  if [ "grep '$2' '$1'" ]
+  then
+      echo "'$1' contains banned word $2"
+      exit 1
+  fi
+}
+
+for FILE in `git diff-index --name-status $against -- | cut -c3-` ; do
+  if echo "$FILE" | grep 'coffee$' ;
+  then
+    check $FILE 'debugger'
+    check $FILE 'console.log'
+  fi
+
+  if echo "$FILE" | grep 'rb$' ;
+  then
+    check $FILE 'debugger'
+    check $FILE 'pry'
+    check $FILE "\t"
+  fi
+done
+
+git stash pop --quiet --index

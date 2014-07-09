@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Checks for changes to package management files
+# runs the relevant update command.
+
+function anyChanges {
+  ! git diff --quiet $OLDREF $NEWREF -- $1
+}
+
+if anyChanges bower.json ; then
+  echo "bower.json changed, installing deps"
+  bower install
+fi
+
+if anyChanges test/bower.json ; then
+  echo "test/bower.json changed, installing deps"
+  pushd test
+  bower install
+  popd
+fi
+
+if anyChanges package.json ; then
+  echo "package.json changed, installing deps"
+  npm install
+fi
+
+if anyChanges Gemfile* ; then
+  echo "Gemfile changed, installing deps"
+  bundle install
+fi

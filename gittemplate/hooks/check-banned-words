@@ -2,15 +2,22 @@
 
 git stash -u --keep-index
 
+function die {
+  set -ex
+  echo "Bailing out"
+  git stash pop --quiet --index
+  exit $1
+}
+
 function check {
-  if [ "grep '$2' '$1'" ]
+  if grep "$2" "$1"
   then
       echo "'$1' contains banned word $2"
       exit 1
   fi
 }
 
-for FILE in `git diff-index --name-status $against -- | cut -c3-` ; do
+for FILE in `git diff-index --name-status $against -- | grep -v '^D' | cut -c3-` ; do
   if echo "$FILE" | grep 'coffee$' ;
   then
     check $FILE 'debugger'
@@ -25,4 +32,4 @@ for FILE in `git diff-index --name-status $against -- | cut -c3-` ; do
   fi
 done
 
-git stash pop --quiet --index
+

@@ -1,14 +1,5 @@
 #!/bin/bash
 
-git stash -u --keep-index
-
-function die {
-  set -ex
-  echo "Bailing out"
-  git stash pop --quiet --index
-  exit $1
-}
-
 function check {
   if grep "$2" "$1"
   then

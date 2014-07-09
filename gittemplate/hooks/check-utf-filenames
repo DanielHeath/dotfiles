@@ -24,5 +24,5 @@ If you know what you are doing you can disable this check using:
 
   git config hooks.allownonascii true
 EOF
-  exit 1
+  die 1
 fi

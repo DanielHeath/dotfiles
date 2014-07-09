@@ -12,6 +12,7 @@ fi
 exec 1>&2
 
 export against
+
 $GIT_DIR/hooks/check-whitespace
 $GIT_DIR/hooks/check-utf-filenames
 $GIT_DIR/hooks/check-banned-words

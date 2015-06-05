@@ -1,7 +1,6 @@
 #!/bin/bash
 
 source $HOME/.vagrantrc/bashrc
-if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
 export CDPATH=".:/Users/daniel.heath/Projects/rea::/Users/daniel.heath/Projects"
 export EDITOR="subl -w -n"
 

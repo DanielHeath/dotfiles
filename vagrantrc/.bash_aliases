@@ -1,9 +1,9 @@
+function ll { ls -al "$@" ; }
 
 function be { bundle exec "$@" ; }
 function ber {
   bundle exec rake "$@" ;
 }
-
 function feeling-lucky { git pull --rebase && ber && gps "$@" ; }
 alias wtf='echo "last exit was $?"; uname -m -p -r -s && echo "You are `whoami`, logged into `hostname`" && pwd'
 function ga { git add "$@" ; }
@@ -14,9 +14,6 @@ function gl { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Cres
 function gs { git status "$@" ; }
 function gss { git stash save "$@" ; }
 function gsp { git stash pop "$@" ; }
-
-function ll { ls -al "$@" ; }
-
 function gpl { git pull --rebase "$@" ; }
 function gps { git push "$@" ; }
 

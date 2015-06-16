@@ -8,4 +8,3 @@ GPG_TTY=`tty`
 export GPG_TTY
 
 . `brew --prefix`/etc/profile.d/z.sh
-

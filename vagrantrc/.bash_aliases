@@ -1,13 +1,8 @@
-function dir { ls "$@" ; }
 
 function be { bundle exec "$@" ; }
-function bec { RAILS_ENV=cucumber bundle exec cucumber "$@" ; }
-function becoff { RAILS_ENV=cucumber bundle exec cucumber -pworks_offline "$@" ; }
 function ber {
   bundle exec rake "$@" ;
 }
-function bes { RAILS_ENV=test bundle exec spec "$@" ; }
-function berc { bundle exec rake clean_and_package && bundle exec cucumber "$@" ; }
 
 function feeling-lucky { git pull --rebase && ber && gps "$@" ; }
 alias wtf='echo "last exit was $?"; uname -m -p -r -s && echo "You are `whoami`, logged into `hostname`" && pwd'
@@ -19,7 +14,6 @@ function gl { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Cres
 function gs { git status "$@" ; }
 function gss { git stash save "$@" ; }
 function gsp { git stash pop "$@" ; }
-function rdoc { bundle exec gem list --local | sed "s/ .*//g" | xargs -P 30 -L 1 gem rdoc "$@" ; }
 
 function ll { ls -al "$@" ; }
 

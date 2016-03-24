@@ -1,0 +1,66 @@
+
+if [ "$PS1" ]; then
+
+  red='\[\e[31m\]'
+  green='\[\e[32m\]'
+  yellow='\[\e[33m\]'
+  cyan='\[\e[36m\]'
+  grey='\[\e[0;37m\]'
+
+  reset_color='\[\e[0m\]'
+  set_title='\[\e]0;\]\H:\w\[\007\]'
+
+  prompt="$green$"
+
+  if test `id -un` = root; then
+    prompt="$red#"
+  fi
+
+  function prompt-git-user() {
+    git_user=`git config --get user.name`
+    if test -n "$git_user"; then
+      echo " '$git_user'"
+    fi
+  }
+
+  function prompt-git-branch() {
+    git_branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/^* //'`
+    if test -n "$git_branch"; then
+      echo " [$git_branch]"
+    fi
+  }
+
+  function prompt-git-rebasing() {
+    [[ -d .git/rebase-apply ]] && echo " REBASING"
+  }
+
+  function boxname() {
+    echo "(`hostname | cut -d'.' -f1`) "
+  }
+
+  function last-cmd-color() {
+    status=${1-unset}
+    zero=0
+    echo $status
+    if [[ $status = $zero ]]
+    then
+      echo $green $status 'grn'
+    else
+      echo $red $status 'red'
+    fi
+  }
+
+  set_bash_prompt(){
+    status=${?-unset}
+    zero=0
+    if [[ $status = $zero ]]
+    then
+      statusColor=$green
+    else
+      statusColor=$red
+    fi
+    PS1="${set_title} ${statusColor}\$?${green}(\t) ${yellow}\w${grey}\$(prompt-git-branch)${red}\$(prompt-git-rebasing)
+  ${prompt} ${reset_color}"
+  }
+  PROMPT_COMMAND=set_bash_prompt
+fi

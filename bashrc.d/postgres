@@ -1,0 +1,5 @@
+
+# Ensure that postgres databases are created with the right collation
+LC_ALL=en_US.UTF-8
+LC_LANG=en_US.UTF-8
+export LC_ALL LC_LANG

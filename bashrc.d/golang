@@ -1,0 +1,4 @@
+source "/Users/daniel.heath/.gvm/scripts/gvm"
+gvm use 1.6 >> /dev/null
+export GOPATH=/Volumes/Code/go:$GOPATH
+export PATH="$PATH:$SRCPATH/go/bin/"

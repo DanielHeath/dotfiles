@@ -1,0 +1,4 @@
+
+export CDPATH=".:$SRCPATH/rea::$SRCPATH"
+export PATH="$HOME/.bin:$PATH"
+export EDITOR=editor

@@ -1,0 +1,163 @@
+function ll { ls -al "$@" ; }
+
+function be { bundle exec "$@" ; }
+function ber {
+  bundle exec rake "$@" ;
+}
+function feeling-lucky { git pull --rebase && ber && gps "$@" ; }
+alias wtf='echo "last exit was $?"; uname -m -p -r -s && echo "You are `whoami`, logged into `hostname`" && pwd'
+function ga { git add "$@" ; }
+function gc { git commit "$@" ; }
+function gco { git checkout "$@" ; }
+function gd { git diff --color --word-diff "$@" ; }
+function gl { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative "$@" ; }
+function gs { git status "$@" ; }
+function gss { git stash save "$@" ; }
+function gsp { git stash pop "$@" ; }
+function gpl { git pull --rebase "$@" ; }
+function gps { git push "$@" ; }
+function hist { git log --decorate --source -p "$@" ; }
+
+function tenTimes
+{
+for i in {1..10}; do $@; echo "Result was "$?; done
+}
+
+function eachDir
+{
+retval=0
+for D in *; do
+    if [ -d "${D}" ]; then
+        cd "${D}"
+        "$@"
+        retval=`expr $retval + $?`
+        cd ..
+    fi
+done
+echo "Sum or exit codes: $retval"
+bash -c "exit $retval"
+}
+
+function syntax
+{
+  find * -iname *.rb | xargs -n 1 ruby -c
+}
+
+function cleanwhiteboardpic
+{
+  convert "$1" -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 "$2"
+}
+
+function gopen
+{
+  pushd ~/Projects/go/src
+  subl $@
+  popd
+}
+
+function remaining_idp_login {
+  local now=$( date -u +%s )
+  local remain=$(( EXPIRE - now ))
+  if [ $remain -gt 0 ]; then
+    echo $(( $remain / 60 ))m
+  else
+    echo "(expired)"
+  fi
+}
+
+function list_stacks {
+  aws cloudformation list-stacks | jq -r '
+    [ .StackSummaries[] |
+    select( .StackStatus != "DELETE_COMPLETE" ) ] |
+    sort_by( .LastUpdatedTime // .CreationTime ) |
+    .[] |
+    .StackName + "," + .StackStatus
+  ' | column -s',' -t
+}
+
+function delete_stack {
+  aws cloudformation delete-stack --stack-name $@
+}
+
+function s3_delete_null_version {
+  aws s3api delete-object \
+  --bucket "$1" \
+  --version-id null \
+  --key "$2"
+}
+
+function darkest_saves_path {
+  echo "/Users/daniel.heath/Library/Application Support/Steam/userdata/88318660/262060/remote"
+}
+
+function sunless_saves_path {
+  echo "/Users/daniel.heath/Library/Application Support/unity.Failbetter Games.Sunless Sea/saves"
+}
+
+function backup_saves {
+set -x
+  local NOW=$( date -u +%s )
+  local TARGET="$HOME/.saveBackups/$2/$NOW"
+  mkdir -p "$TARGET"
+  cp -r "$1" "$TARGET"
+set +x
+}
+
+function backup_sunless {
+  backup_saves "$(sunless_saves_path)" sunless
+}
+
+function backup_darkest {
+  local DPATH="/Users/daniel.heath/Library/Application Support/Steam/userdata/88318660/262060/remote"
+  local NOW=$( date -u +%s )
+  local TARGET="$HOME/.darkestSaves/$NOW"
+  mkdir -p "$TARGET"
+  cp -r "$DPATH" "$TARGET"
+}
+
+function restore_darkest {
+  local DPATH="/Users/daniel.heath/Library/Application Support/Steam/userdata/88318660/262060/remote"
+  local FROM="$HOME/.darkestSaves/${1?Requires an argument}/remote"
+  rm -rf "/tmp/darkest.bak"
+  mv "$DPATH.bak" "/tmp/darkest.bak"
+  mv "$DPATH" "$DPATH.bak"
+  cp -r "$FROM" "$DPATH"
+}
+
+function list_darkest {
+  ls -1 "$HOME/.darkestSaves/" | sort --numeric-sort --reverse
+}
+
+function cherry-pull {
+  if [ -z "$1" ]; then
+    echo "Usage: cherry-pull target_branch <commits>"
+  else
+    local targetbranch="$1"
+    shift
+    local rest="$@"
+
+    current=$(git rev-parse head)
+
+    bash <<SCRIPT
+      set -ex
+      git cherry-pick "$rest"
+      git push --no-verify origin "HEAD:$targetbranch"
+      git reset --hard "$current"
+SCRIPT
+  fi
+}
+
+
+function release {
+  local targetbranch="$1"
+
+  bash <<SCRIPT
+    set -ex
+    git checkout -b "$targetbranch"
+    make dist
+    git add -f dist
+    git commit -m "Releasing $targetbranch"
+    git push -u origin "$targetbranch":"$targetbranch"
+    git checkout -
+SCRIPT
+}

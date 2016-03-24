@@ -1,10 +1,8 @@
 #!/bin/bash
 
-source $HOME/.vagrantrc/bashrc
-export CDPATH=".:/Users/daniel.heath/Projects/rea::/Users/daniel.heath/Projects"
-export EDITOR=editor
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export SRCPATH=/Volumes/Code
 
-GPG_TTY=`tty`
-export GPG_TTY
-
-. `brew --prefix`/etc/profile.d/z.sh
+for i in $HOME/dotfiles/bashrc.d/* ; do
+    source "$i"
+done

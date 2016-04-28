@@ -29,3 +29,5 @@
 	showPatch = true
 [http]
 	cookiefile = /Users/daniel.heath/.gitcookies
+[commit]
+	gpgSign = true

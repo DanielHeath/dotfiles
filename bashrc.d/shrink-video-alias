@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+function shrink-videos {
+  for FROM in "$@"; do
+    echo "Shrinking $FROM"
+    ffmpeg \
+      -i "$FROM" \
+      -vcodec libx264 \
+      -strict -2 \
+      "$FROM-shrunk.mov"
+  done
+}

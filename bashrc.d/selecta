@@ -1,0 +1,7 @@
+if which selecta > /dev/null ; then
+
+# This isn't quite what I want; the ordering isn't chronological and it doesn't update history.
+# bind '"\C-r":"\C-a\C-k history | cut -c 30- | sort | uniq | selecta |  bash \C-m"'
+true
+
+fi

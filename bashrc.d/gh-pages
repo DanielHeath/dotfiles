@@ -1,0 +1,14 @@
+
+function ghpages-release {
+  local targetbranch="$1"
+
+  bash <<SCRIPT
+    set -ex
+    git checkout -b "$targetbranch"
+    make dist
+    git add -f dist
+    git commit -m "Releasing $targetbranch"
+    git push -u origin "$targetbranch":"$targetbranch"
+    git checkout -
+SCRIPT
+}

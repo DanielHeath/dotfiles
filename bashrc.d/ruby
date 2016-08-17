@@ -4,3 +4,14 @@ export RUBYLIB=.
 source $HOME/dotfiles/chruby/usr/local/share/chruby/chruby.sh
 source $HOME/dotfiles/chruby/usr/local/share/chruby/auto.sh
 export PATH="$PATH:$HOME/dotfiles/chruby/usr/local/bin"
+
+function be { bundle exec "$@" ; }
+function ber {
+  bundle exec rake "$@" ;
+}
+
+
+function syntax
+{
+  find * -iname *.rb | xargs -n 1 ruby -c
+}

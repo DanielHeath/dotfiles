@@ -1,0 +1,1 @@
+alias dockershell="docker run -i -t --entrypoint /bin/bash"

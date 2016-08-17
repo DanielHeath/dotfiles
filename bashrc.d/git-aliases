@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+function ga { git add "$@" ; }
+function gc { git commit "$@" ; }
+function gd { git diff --color --word-diff "$@" ; }
+function gl { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative "$@" ; }
+function gs { git status "$@" ; }
+function gss { git stash save "$@" ; }
+function gsp { git stash pop "$@" ; }
+function gpl { git pull --rebase "$@" ; }
+function gps { git push "$@" ; }
+function hist { git log --decorate --source -p "$@" ; }
+
+function cherry-pull {
+  if [ -z "$1" ]; then
+    echo "Usage: cherry-pull target_branch <commits>"
+  else
+    local targetbranch="$1"
+    shift
+    local rest=( "$@" )
+
+    current=$(git rev-parse head)
+
+    bash <<SCRIPT
+      set -ex
+      git cherry-pick "${rest[@]}"
+      git push --no-verify origin "HEAD:$targetbranch"
+      git reset --hard "$current"
+SCRIPT
+  fi
+}
+
+function gco {
+  errormsg=$(git checkout "$@" 2>&1)
+  if [ 128 -eq "$?" ] ; then
+    MSG=$( echo "$errormsg" \
+      | grep "fatal: '$*' is already checked out at" )
+    splitquote="${MSG#*\'}"
+    splitquote="${splitquote#*\'}"
+    splitquote="${splitquote#*\'}"
+
+    CHECKEDOUTAT="$(echo "$splitquote" | sed "s/'$//")"
+
+    echo "$* is already checked out at $CHECKEDOUTAT; changing directory."
+
+    cd "$CHECKEDOUTAT"
+  fi
+}
+

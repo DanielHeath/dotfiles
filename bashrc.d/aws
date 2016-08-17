@@ -1,1 +1,24 @@
 export AWS_CLI=/usr/local/bin/aws
+
+
+
+function list_stacks {
+  aws cloudformation list-stacks | jq -r '
+    [ .StackSummaries[] |
+    select( .StackStatus != "DELETE_COMPLETE" ) ] |
+    sort_by( .LastUpdatedTime // .CreationTime ) |
+    .[] |
+    .StackName + "," + .StackStatus
+  ' | column -s',' -t
+}
+
+function delete_stack {
+  aws cloudformation delete-stack --stack-name $@
+}
+
+function s3_delete_null_version {
+  aws s3api delete-object \
+  --bucket "$1" \
+  --version-id null \
+  --key "$2"
+}

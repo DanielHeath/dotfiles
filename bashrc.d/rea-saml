@@ -1,0 +1,11 @@
+. /Users/daniel.heath/.saml-aws-functions/bash-functions
+
+function remaining_idp_login {
+  local now=$( date -u +%s )
+  local remain=$(( EXPIRE - now ))
+  if [ $remain -gt 0 ]; then
+    echo $(( $remain / 60 ))m
+  else
+    echo "(expired)"
+  fi
+}

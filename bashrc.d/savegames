@@ -1,0 +1,42 @@
+
+function darkest_saves_path {
+  echo "/Users/daniel.heath/Library/Application Support/Steam/userdata/88318660/262060/remote"
+}
+
+function sunless_saves_path {
+  echo "/Users/daniel.heath/Library/Application Support/unity.Failbetter Games.Sunless Sea/saves"
+}
+
+function backup_saves {
+set -x
+  local NOW=$( date -u +%s )
+  local TARGET="$HOME/.saveBackups/$2/$NOW"
+  mkdir -p "$TARGET"
+  cp -r "$1" "$TARGET"
+set +x
+}
+
+function backup_sunless {
+  backup_saves "$(sunless_saves_path)" sunless
+}
+
+function backup_darkest {
+  local DPATH="/Users/daniel.heath/Library/Application Support/Steam/userdata/88318660/262060/remote"
+  local NOW=$( date -u +%s )
+  local TARGET="$HOME/.darkestSaves/$NOW"
+  mkdir -p "$TARGET"
+  cp -r "$DPATH" "$TARGET"
+}
+
+function restore_darkest {
+  local DPATH="/Users/daniel.heath/Library/Application Support/Steam/userdata/88318660/262060/remote"
+  local FROM="$HOME/.darkestSaves/${1?Requires an argument}/remote"
+  rm -rf "/tmp/darkest.bak"
+  mv "$DPATH.bak" "/tmp/darkest.bak"
+  mv "$DPATH" "$DPATH.bak"
+  cp -r "$FROM" "$DPATH"
+}
+
+function list_darkest {
+  ls -1 "$HOME/.darkestSaves/" | sort --numeric-sort --reverse
+}

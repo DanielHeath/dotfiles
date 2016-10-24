@@ -38,6 +38,10 @@ if [ "$PS1" ]; then
     echo "(`hostname | cut -d'.' -f1`) "
   }
 
+  function lpassStatus() {
+    echo "(`lpass status`) "
+  }
+
   function last-cmd-color() {
     status=${1-unset}
     zero=0
@@ -59,7 +63,7 @@ if [ "$PS1" ]; then
     else
       statusColor=$red
     fi
-    PS1="${set_title} ${statusColor}\$?${green}(\t) ${yellow}\w${grey}\$(prompt-git-branch)${red}\$(prompt-git-rebasing)
+    PS1="${set_title} ${statusColor}\$?${green}(\t) ${yellow}\w \$(lpassStatus)${grey}\$(prompt-git-branch)${red}\$(prompt-git-rebasing)
   ${prompt} ${reset_color}"
   }
   PROMPT_COMMAND=set_bash_prompt

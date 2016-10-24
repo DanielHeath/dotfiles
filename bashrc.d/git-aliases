@@ -10,6 +10,7 @@ function gsp { git stash pop "$@" ; }
 function gpl { git pull --rebase "$@" ; }
 function gps { git push "$@" ; }
 function hist { git log --decorate --source -p "$@" ; }
+function gco { git checkout "$@" ; }
 
 function cherry-pull {
   if [ -z "$1" ]; then

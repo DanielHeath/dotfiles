@@ -35,3 +35,6 @@
 	gpgSign = false
 [diff]
 	compactionHeuristic = true
+[hub]
+	host = git.realestate.com.au
+	host = github.com

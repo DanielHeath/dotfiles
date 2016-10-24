@@ -1,1 +1,1 @@
-export PATH="$PATH:$SRCPATH/camlistore/bin/:$SRCPATH/go/src/github.com/camlistore/camlistore/bin"
+export PATH="$PATH:$SRCPATH/camlistore/bin:$SRCPATH/go/src/github.com/camlistore/camlistore/bin"

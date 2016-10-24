@@ -1,5 +1,10 @@
+
 if which brew > /dev/null ; then
-if [ -e `brew --prefix`/etc/profile.d/z.sh ] ; then
-  . `brew --prefix`/etc/profile.d/z.sh
-fi
+  if [ -e /usr/local/etc/profile.d/z.sh ] ; then
+    function z() {
+      unset -f z
+      source /usr/local/etc/profile.d/z.sh
+      _z $@
+    }
+  fi
 fi

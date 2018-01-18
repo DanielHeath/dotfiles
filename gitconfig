@@ -38,3 +38,7 @@
 [hub]
 	host = git.realestate.com.au
 	host = github.com
+[includeIf "gitdir:/Volumes/Code/rea/"]
+	path = /Volumes/Code/rea/.gitconfig
+[credential]
+	helper = foo

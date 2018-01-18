@@ -1,7 +1,5 @@
 export AWS_CLI=/usr/local/bin/aws
 
-
-
 function list_stacks {
   aws cloudformation list-stacks | jq -r '
     [ .StackSummaries[] |

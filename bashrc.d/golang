@@ -1,11 +1,6 @@
 if [ -n "$PS1" ]
 then
   source "$HOME/.gvm/scripts/gvm"
-  function go() {
-    gvm use 1.7 >> /dev/null
-    unset -f go
-    go $@
-  }
   export GOPATH="$SRCPATH/go:$GOPATH"
   export PATH="$PATH:$SRCPATH/go/bin"
 fi

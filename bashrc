@@ -7,6 +7,5 @@ if [ -e /Volumes/Code ]; then
 export SRCPATH=/Volumes/Code
 fi
 
-for i in $HOME/dotfiles/bashrc.d/* ; do
-    source "$i"
-done
+cat "$HOME"/dotfiles/bashrc.d/* > "$HOME/dotfiles/bashrc.concatenated"
+source $HOME/dotfiles/bashrc.concatenated

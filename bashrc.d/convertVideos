@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+function convertVideos {
+  for ext in MOV mov mp4 MP4 ; do
+    for file in *.$ext
+    do
+      base=$(basename "$file" ".$ext")
+      if ! [ -e "$base-shrunk.mp4" ] ; then
+      ffmpeg \
+        -i "$file" \
+        -strict -2 \
+        "$base-shrunk.mp4"
+      fi
+    done
+  done
+}

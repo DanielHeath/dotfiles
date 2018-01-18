@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/moovweb/gvm.svg?branch=master)](https://travis-ci.org/moovweb/gvm)
 
-by Josh Bussdieker (jbuss, jaja, jbussdieker)
+by Josh Bussdieker (jbuss, jaja, jbussdieker) while working at [Moovweb](https://www.moovweb.com)
 
 GVM provides an interface to manage Go versions.
 
@@ -51,8 +51,9 @@ Additional options can be specified when installing Go:
 Go 1.5+ removed the C compilers from the toolchain and [replaced][compiler_note] them with one written in Go. Obviously, this creates a bootstrapping problem if you don't already have a working Go install. In order to compile Go 1.5+, make sure Go 1.4 is installed first.
 
 ```
-gvm install go1.4
+gvm install go1.4 -B
 gvm use go1.4
+export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.5
 ```
 
@@ -78,8 +79,14 @@ If that doesn't work see the troubleshooting steps at the bottom of this page.
 
 Mac OS X Requirements
 ====================
- * Install Mercurial from http://mercurial.berkwood.com/
+ * Install Mercurial from https://www.mercurial-scm.org/downloads
  * Install Xcode Command Line Tools from the App Store.
+
+```
+xcode-select --install
+brew update
+brew install mercurial
+```
 
 Linux Requirements
 ==================

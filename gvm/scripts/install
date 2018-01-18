@@ -86,6 +86,7 @@ compile_go() {
 	export GOBIN=$GO_INSTALL_ROOT/bin &&
 	export PATH=$GOBIN:$PATH &&
 	export GOROOT=$GO_INSTALL_ROOT &&
+	if [ ! -f "$GO_INSTALL_ROOT/VERSION" ]; then echo "$GO_NAME" > "$GO_INSTALL_ROOT/VERSION"; fi &&
 	#cd $GO_INSTALL_ROOT/src && ./all.bash &> $GVM_ROOT/logs/go-$GO_NAME-compile.log ||
 	cd "$GO_INSTALL_ROOT/src" && ./make.bash &> "$GVM_ROOT/logs/go-$GO_NAME-compile.log" ||
 		(rm -rf "$GO_INSTALL_ROOT" && display_fatal "Failed to compile. Check the logs at $GVM_ROOT/logs/go-$GO_NAME-compile.log")
@@ -152,7 +153,6 @@ install_go() {
 
 download_binary() {
 	mkdir -p $GO_INSTALL_ROOT >> "${GVM_ROOT}/logs/go-${GO_NAME}-download-binary" 2>&1
-
 	if [ "$(uname)" == "Darwin" ]; then
 		GVM_OS="darwin"
 		osx_major_version="$(sw_vers -productVersion | cut -d "." -f 2)"
@@ -176,7 +176,13 @@ download_binary() {
 		GVM_ARCH="386"
 	fi
 
-	GO_BINARY_FILE=${VERSION}.${GVM_OS}-${GVM_ARCH}${GVM_OS_VERSION}.tar.gz
+	SEMVER=$(extract_version $VERSION)
+	compare_version $SEMVER "1.4.3"
+	if [ $? -eq 2 ]; then
+		GO_BINARY_FILE=${VERSION}.${GVM_OS}-${GVM_ARCH}${GVM_OS_VERSION}.tar.gz
+	else
+		GO_BINARY_FILE=${VERSION}.${GVM_OS}-${GVM_ARCH}.tar.gz
+	fi
 	GO_BINARY_URL="http://golang.org/dl/${GO_BINARY_FILE}"
 	GO_BINARY_PATH=${GVM_ROOT}/archive/${GO_BINARY_FILE}
 
@@ -240,7 +246,7 @@ install_gb() {
 }
 
 install_goprotobuf() {
-	which protoc &> /dev/null || display_warning "Could not find protocol buffer compiler
+	command -v protoc &> /dev/null || display_warning "Could not find protocol buffer compiler
 
   linux: apt-get install protobuf-compiler
   mac:   brew install protobuf
@@ -285,7 +291,7 @@ install_from_source() {
 	install_go
 
 	GVM_GOINSTALL="goinstall"
-	which goinstall &> /dev/null ||
+	command -v goinstall &> /dev/null ||
 		GVM_GOINSTALL="go get"
 
 	x="$(cd "$GO_CACHE_PATH" && git tag)"; echo "${x#*b0819469a6df}" | $GREP_PATH "$version " &> /dev/null

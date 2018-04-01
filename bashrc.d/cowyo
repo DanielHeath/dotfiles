@@ -1,0 +1,13 @@
+function deploy_cowyo() {
+  set -ex
+  cd /Volumes/Code/go/src/github.com/danielheath/cowyo && \
+  make linux64 && \
+  ssh camlistore "sudo initctl stop cowyo || true" && \
+  scp dist/cowyo_linux_amd64 camlistore:cowyo/cowyo && \
+  ssh camlistore "chmod +x cowyo/cowyo" && \
+  ssh camlistore "sudo initctl start cowyo"
+  cd -
+  sleep 1
+  ssh camlistore "sudo initctl status cowyo"
+  set +ex
+}

@@ -1,0 +1,9 @@
+function shrink-photos {
+  quality=${1?Usage: shrink-photos <quality>}
+  outdir="out-$quality"
+
+  mkdir "$outdir"
+  for FILE in *.jpg *.jpeg *.JPG ; do
+    convert -quality "$quality" "$FILE" "$outdir/$FILE"
+  done
+}

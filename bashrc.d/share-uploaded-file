@@ -1,0 +1,8 @@
+function share-file-url {
+  file=${1?Usage: share-file-url <file> [remote-name]}
+  remote=${2:-$(basename "$file")}
+
+  aws s3 cp --acl public-read "$file" "s3://files.heath.cc/$remote"
+
+  echo "https://files.heath.cc/$remote"
+}

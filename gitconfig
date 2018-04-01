@@ -6,7 +6,7 @@
 [core]
 	editor = subl -n -w
 	attributesfile = ~/.gitattributes
-	excludesfile = /Users/daniel.heath/.gitignore
+	excludesfile = ~/.gitignore
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 	recent = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
@@ -14,8 +14,6 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
-[url "git@github.com:"]
-	pushInsteadOf = https://github.com/
 [rerere]
 	enabled = true
 [advice]
@@ -35,9 +33,6 @@
 [diff]
 	compactionHeuristic = true
 [hub]
-	host = git.realestate.com.au
 	host = github.com
-[includeIf "gitdir:/Volumes/Code/rea/"]
-	path = /Volumes/Code/rea/.gitconfig
-[credential]
-	helper = foo
+[includeIf "gitdir:/Volumes/Code/reinteractive/"]
+	path = /Volumes/Code/reinteractive/.gitconfig

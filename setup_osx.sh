@@ -1,4 +1,3 @@
-a
 # OSX for Hackers (Mavericks/Yosemite)
 #
 # Source: https://gist.github.com/brandonb927/3195465

@@ -1,6 +1,5 @@
 if [ -n "$PS1" ]
 then
-  source "$HOME/.gvm/scripts/gvm"
-  export GOPATH="$SRCPATH/go:$GOPATH"
+  export GOPATH="$SRCPATH/go"
   export PATH="$PATH:$SRCPATH/go/bin"
 fi
